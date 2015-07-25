@@ -1,0 +1,169 @@
+﻿<div id="led2Model" >
+    <div id="container">
+      <div id="topLoader">      
+    </div>
+    <div class="switch am-fr">
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-7" value="led2" data-bind="checked:$root.switchValue(), event:{ change: $root.led2Changed}" ></input>
+        <label for = "cb-7"></label>
+    </div>
+</div>
+<script type="text/javascript">
+var $topLoader; var controller;
+function centerVM() 
+{
+    var self = this;
+    // make the variables observable  
+    self.controller = ko.observable(0);
+    self.switchValue = ko.observable(false);
+    self.loaddata = function () 
+    {
+        $.ajax({
+            url: "/index.php/devices/7"
+        }).done(function (data) 
+        {
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch =  Number(led2Value.switch) ;
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( led2Value.controller ));
+
+            controller  = self.controller;
+
+        });
+    };
+    self.led2Changed = function ()
+    {
+        if (self.switch) 
+        {
+            self.switch = 0;
+            self.switchValue(false);
+            console.log("1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+                $('#my-prompt').modal('open');
+        }else{
+            self.switch = 1;
+            self.switchValue(true);
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+                $('#my-prompt').modal('open');
+        };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax(
+        {
+            type: "POST",
+            url: "/index.php/mqttdevices/7",
+            data: switchData,
+            success: function (subdata) 
+            {
+               $.post("/index.php/feedback/led2", "{\"code\":1}");
+               setTimeout(function()
+                {
+                    $.get("/index.php/feedback/led2",
+                        function(fdbData)
+                        {
+                            /*if(1 == fdbData)
+                            {
+                                console.log("Led2 switch Not accessable !!");
+                            }else if (2 == fdbData) 
+                            {
+                                console.log("Something wrong with the server !!");
+                            }else if (0 == fdbData) 
+                            {
+                                console.log("Led2 switch Success Changed !");
+                            };*/
+                        });
+                }, 4000);
+
+               if(self.switch)
+                {
+                    $topLoader.percentageLoader({progress: Number(self.controller())/100 });
+                }
+            },
+            error: function (xhr, status, error) 
+            {
+                $.post("/index.php/feedback/led2",
+                    "{'code':2}",
+                    function()
+                    {
+                        console.log("seed 2 OK");
+                    });
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
+    }
+}
+// check out which radio is selected and run the function radioChange under event:change
+$(function() 
+{
+    $topLoader = $("#topLoader").percentageLoader({
+        width: 256, height: 256, controllable: true, progress: 0, 
+        onProgressComplete: function (val) 
+        {
+            var togswitch  = led2ViewModel.switch;
+            if(togswitch)
+            {
+                controller(Math.round(val * 100.0));
+
+                var controllerNumber = controller();
+                var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
+                $.ajax(
+                {
+                    type: "POST",
+                    url: "/index.php/mqttdevices/7",
+                    data: controllerData,
+                    success : function (){console.log("post 7controller", controllerNumber );}
+                });
+            }
+        }
+    });
+
+    // add animation to the percentageLoader initial.
+    var topLoaderRunning = false;
+    $topLoader.percentageLoader({
+        onready: function ()
+        {
+            if (topLoaderRunning) {
+                return;
+              }
+              topLoaderRunning = true;
+              var kb = 0;
+            var animateFunc = function () 
+            {
+                var totalKb = controller()/100;
+                kb += 0.02;
+                if(kb >= totalKb)
+                {
+                    kb = totalKb;
+                }
+                $topLoader.percentageLoader({progress: kb });
+
+                if (kb < totalKb) {
+                  setTimeout(animateFunc, 25);
+                } else {
+                  topLoaderRunning = false;
+                }
+            };
+
+            setTimeout(animateFunc, 300);
+        } 
+    });
+    
+});
+var led2ViewModel = new centerVM();
+
+setTimeout('led2ViewModel.loaddata()', 200);
+ko.applyBindings(led2ViewModel, document.getElementById("led2Model"));
+
+//go back to main page
+var mainmodel = ko.dataFor(document.getElementById("mainModel"));
+mainmodel.showback(true);
+mainmodel.showuinfo(false);
+mainmodel.gopage = function (url) 
+{
+    $("#render").load("web/center_page.html");
+    mainmodel.showback(false);
+    mainmodel.showuinfo(true);
+};
+    
+</script>

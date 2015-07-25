@@ -1,0 +1,92 @@
+﻿<div class="am-panel am-panel-default">
+    <div class="am-panel-hd"></div>
+    <div class="am-panel-bd">
+        <div id="acModel" class="am-form">
+            <label>用户名:</label>
+            <input type="text" data-bind="value: username" readonly>
+            <p class="am-form-help">用户名不可修改</p>
+            <label>用户姓名:</label>
+            <input type="text" data-bind="value: realname">
+            <label>电子邮件地址:</label>
+            <input type="text" data-bind="value: email">
+            <label>QQ号:</label>
+            <input type="text" data-bind="value: qq">
+
+            <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default">
+                <ul class="am-navbar-nav am-cf am-avg-sm-4">
+                    <li>
+                        <a data-bind="click: acSave">
+                            <span class="am-icon-save"></span>
+                            <span class="am-navbar-label">保 存</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $.ajax({
+        url: "/index.php/user",
+        data : {"username" : $.AMUI.utils.cookie.get('uid')}
+    }).done(function (data) {
+        function acvm() {
+            var self = this;
+            self.username = ko.observable(data.username).extend({ required: true, minLength: 3, maxLength: 64 });
+            self.realname = ko.observable(data.realname).extend({ required: true, minLength: 3, maxLength: 64 });
+            self.email = ko.observable(data.email).extend({ required: true, minLength: 3, maxLength: 64 });
+            self.qq = ko.observable(data.qq).extend({ required: true, minLength: 3, maxLength: 64 });
+
+            self.getjson = function () {
+                if (self.isValid()) {
+                    var dv = new Object();
+                    dv.username = self.username();
+                    dv.realname = self.realname();
+                    dv.email = self.email();
+                    dv.qq = self.qq();
+                    return JSON.stringify(dv);
+                } else {
+                    $("#msg").html("数据验证失败！");
+                    $('#my-prompt').modal('open');
+                }
+            };
+
+            self.acSave = function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/index.php/user",
+                    data: self.getjson(),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Content-Type", "application/json")
+                    },
+                    success: function (result) {
+                        if (result === "") {
+                            $("#msg").html("保存完成！");
+                            $('#my-prompt').modal('open');
+                        } else {
+                            $("#msg").html(result);
+                            $('#my-prompt').modal('open');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $("#msg").html(xhr.responseText);
+                        $('#my-prompt').modal('open');
+                    }
+                });
+            };
+
+        }
+        var aavm = new acvm();
+        ko.applyBindings(ko.validatedObservable(aavm), document.getElementById("acModel"));
+    });
+
+    //go back to main page
+    var mainmodel = ko.dataFor(document.getElementById("mainModel"));
+    mainmodel.showback(true);
+    mainmodel.showuinfo(false);
+    mainmodel.gopage = function (url) {
+        $("#render").load("web/center_page.html");
+        mainmodel.showback(false);
+        mainmodel.showuinfo(true);
+    };
+</script>

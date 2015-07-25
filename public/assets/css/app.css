@@ -1,0 +1,237 @@
+/* Write your styles */
+/* header, button and footable page Default Setting*/
+.am-header-default ,.am-btn-primary ,.am-navbar-default .am-navbar-nav,.footable > thead > tr > th, .footable > thead > tr > td {
+    background-color: #738FE6;
+    border-color: #738FE6;
+}
+.footable > tfoot > tr > th, .footable > tfoot > tr > td{
+	background-color: #738FE6;
+	border-color: -moz-use-text-color #738FE6 #738FE6 -moz-use-text-color;
+}
+.footable {
+	border: 3px solid #738FE6;
+}
+.am-header .am-header-title {
+	margin: 0px;
+}
+span.am-modal-btn
+{
+	color: #738FE6;
+}
+span.am-modal-btn:hover
+{
+	background-color: #DEDEDE;
+}
+.am-menu-offcanvas1 .am-menu-nav > li > a {
+	height: 50px;
+	line-height: 50px;
+	font-size: 1.7rem;
+}
+.am-menu-offcanvas1 .am-menu-sub{
+	font-size: 1.7rem;
+}
+.am-icon-user{
+	width: auto;
+	display: inline;
+	margin-left: -12px;
+}
+/* circle controller Loader*/
+#topLoader {
+	width: 256px;
+	height: 256px;
+	margin-top: 20px;
+	margin-bottom: 32px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* button list for center page */
+.boxes {
+	margin-top: 1em;
+	margin-left:auto;
+	margin-right:auto;
+  	width: auto;
+  	text-align:center;
+  	padding-left: 5%;
+  	padding-right: 5%;
+}
+.box {
+	display:inline;
+	height: auto;
+	text-align: center;
+	transition: all .2s ease;
+	float: left;
+	position: relative;
+	padding: 0px;
+	border-color: #738FE6;
+}
+@media screen and (min-width:1200px){
+	.box { width: 14%; margin: 1.33%;}
+}
+@media screen and (min-width: 960px) and (max-width: 1199px){
+	.box { width: 18%; margin: 0.95%;}
+}
+@media screen and (min-width: 768px) and (max-width: 959px){
+	.box { width: 23%; margin: 0.95%;}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	.box { width: 30%; margin: 1.66%; }
+}
+@media only screen and (max-width: 479px) {
+	.box {  width: 45%;  margin: 2.45%; }
+}
+
+.imgsimple
+{
+	padding: 10% 0px 10%;
+	width: 57%;
+	height: 57%;
+	margin-left: auto;
+	margin-right: auto;
+}
+img.imgsimple
+{
+	width: 100%;
+}
+.centerText
+{
+	position: absolute;
+	bottom: 8%;
+	width: 100%;
+	height: 16%
+}
+.custombtn
+{
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	padding: 0px 0px;
+	background-color: #fff;
+	border: 0px;
+	/*border-color: #738FE6;*/
+}
+.custombtn:hover {
+  background-color: #667399;
+}
+
+.custombtn.am-active {
+  background-color: #A0D6D6;
+}
+.custombtn.am-active:hover {
+	border: 3px solid #33394D;
+}
+.box span
+{
+	color: #000;
+	text-align: center;
+	font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
+	font-size: 100%;
+}
+/* toggle in secondary page*/
+.am-fr
+{
+	float: inherit;
+	width: auto;
+}
+
+/* button list for tv and air conditioner page */
+.tvboxes {
+	margin-top: 1em;
+	margin-left:auto;
+	margin-right:auto;
+  	width: auto;
+  	text-align:center;
+  	padding-left: 5%;
+  	padding-right: 5%;
+}
+.tvbox {
+	display:inline;
+	height: auto;
+	text-align: center;
+	transition: all .2s ease;
+	float: left;
+	position: relative;
+	padding: 0px;
+	border-color: #738FE6;
+}
+.tvbtn ,.tvbtn.am-active
+{
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	padding: 0px 0px;
+	background-color: #fff;
+	border: 0px;
+	box-shadow: 0px 0px 0px;
+}
+.tvbtn:hover ,.tvbtn.am-active:hover{
+  background-color: #667399;
+}
+@media screen and (min-width:1200px){
+	.tvbox { width: 6%; margin: 1.33%;}
+}
+@media screen and (min-width: 960px) and (max-width: 1199px){
+	.tvbox { width: 8%; margin: 0.95%;}
+}
+@media screen and (min-width: 768px) and (max-width: 959px){
+	.tvbox { width: 13%; margin: 0.95%;}
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	.tvbox { width: 20%; margin: 1.66%; }
+}
+@media only screen and (max-width: 479px) {
+	.tvbox {  width: 25%;  margin: 2.45%; }
+}
+
+.tvbox span
+{
+	color: #000;
+	text-align: center;
+	font-family: "Segoe UI Light","Segoe UI",Verdana,Tahoma,Arial;
+	font-size: 100%;
+}
+.tvBtnText{
+	margin-top: auto;
+	margin-bottom: auto;
+}
+/*.am-header-default
+{
+	width: 256px;
+}   
+#container {
+	width: 940px;
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+input[type='checkbox'].customcb
+{
+	width: 100%;
+	height: 150px;
+	margin-top: 0px;
+	-webkit-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAE+klEQVRoBe2aS28URxRGsY0h2FmwCQuEWLHjvUNgZAQ4PMwrEkIRIGEgySKwB8QvYIvEP+ANO0CwsJAA88wGBEKBZJUVQkJCQrwJ5nxN31Z5pnpc7e4ZT9vT0peqqanquqfurVvlIW3Dw8NTJtPTPplgxdoCnugeb3m45eEJtgJTJwJPGw8cP8V6TfmC4/Z/H9uEAAZsIdqHZiMBn2UNbvigSw8M2AIAD6PtqBPpmYe+8t1NoL9GLfYf3bTKKhiWo9PoA9KV0dUgn/tRh8tXWg/Hnj0KUB8yz1JNnjXUuhFd264A/f0O7dKXpQ7EIiTPfkKuVyvrSlx3US+KPF26cMbwxeg8Gg3W4LWHFd6rUUepQprQnI/Rh9A25AtjmqseHVkK7w59UxpgYFdg7wH0CwqFpWvyrKI23GZ7OWluwgqwOnqOobVoWh4Tm97DwCpBHUFp2TiUX3v5QVMnLQzMmqAsUVWWyta3UX/TAmOcwjjk6KmE830W7GbU0ZTAGKYEJdj3yAcQ2qYw1jmsG9e0KF8122UDw/SHwFX0EYWC+fpZGG/hPcn1sqk8jGHas+dQ6KXCB6o2g91IPfKsObZpgDGsqAT1hXdpz25A7QZqZU1gBsxFSh5zbEA9yniOU5R5PSvvCnYTSsLYtdkLTGf9uKdD/gS6gI6jPndgUXXe24OKSFAK4zsoSVA+G6uAGaC758/oBrIs+Zb6rbg9up35Xpa1jffpUqEEldezysbJ0VPLjhHADOpEfUiw2gtuUtAKDiGtYNXeqDWJ7zveYQnqM3V3nqx1s2s97xmRoLzzWqMgkLLaTVQJa0ZoJe+hXjRmaMYKVlslr2dlp5wgu4PsiTyszmg5qgVr0CqvoZW2WFlKxhV5gxJsdIMKtYH+Eew6yksoNLy0soJeFzqR+vEI9gx6h9wFzFoPSlA+25g3SlChnnUNU3grkWmxRg0n+ihBnUR5w9j2bCbPGjzzR3sgbc+6gL66TV4zkTHHEqSfZSzr+94V0mbzKUF1GkSWknG5QktGyoj7qBdVeZo2S1Ch2yUNXOMVUcEJyrcQjOeP4vzQCu9BpBtOck5T70HybN4w1iJcR7ouem9QPjhfG+On7EBPUNrKhrYLWp7+FS1FCjtdKvJ6VvM/Q9o2uWC1AHq60QB6hELh0voJ+im6iHReF+FZwe5HP/g8lrXNzuEfeeFu9C9Kg8nSrr9lBZ9ljK/v37xjL5qRFSytf3K15KXy9EH0D/JN3ui2Qj1rC5AAq4FnJvoDPUSNBnTnUy4YQF1maFHlCOAYuouJFN6PkWtEo+ryrH5sL2TPVi5UFXAMrfDegxrtae3ZfWh6paFFffYCx9BKZLtQo/a0YLXIhSUo3yKlAsfQ8vSBBkALtrCjxwdqbTWBY2glst9REee0Lw/ULUEZpFuOChxD1yuRybNbUV0SlAtq9SDgGFp7ushEJlhdKuqWoAzSLYOBHeidGPkc+cIztE2wA6iuCcoFtXom4Bha4f0nGmv2FqyOnoaFscFG9rsfQusYq0T2G8qayASrbdEdOlfR/TJ72AzAaHla5/QD9BnVCucvfK/fjZXtx8WzZneu/+WBf53XOb0G6XetHjQXyfv2vKLyH7qLLqMhJn5DOW5PLmBZDfRUilloGUoD/ovvXgIrT4/rkxt4XK0fw+TtYxhT6iEt4FK7L8D4locDFqnUXSadh78Bx5bEl2CLG+8AAAAASUVORK5CYII=");
+	-webkit-appearance: none;
+	-webkit-mask-repeat: round;
+	-webkit-mask-size: 150px;
+	-webkit-mask-position: right;
+
+	-moz-mask-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAE+klEQVRoBe2aS28URxRGsY0h2FmwCQuEWLHjvUNgZAQ4PMwrEkIRIGEgySKwB8QvYIvEP+ANO0CwsJAA88wGBEKBZJUVQkJCQrwJ5nxN31Z5pnpc7e4ZT9vT0peqqanquqfurVvlIW3Dw8NTJtPTPplgxdoCnugeb3m45eEJtgJTJwJPGw8cP8V6TfmC4/Z/H9uEAAZsIdqHZiMBn2UNbvigSw8M2AIAD6PtqBPpmYe+8t1NoL9GLfYf3bTKKhiWo9PoA9KV0dUgn/tRh8tXWg/Hnj0KUB8yz1JNnjXUuhFd264A/f0O7dKXpQ7EIiTPfkKuVyvrSlx3US+KPF26cMbwxeg8Gg3W4LWHFd6rUUepQprQnI/Rh9A25AtjmqseHVkK7w59UxpgYFdg7wH0CwqFpWvyrKI23GZ7OWluwgqwOnqOobVoWh4Tm97DwCpBHUFp2TiUX3v5QVMnLQzMmqAsUVWWyta3UX/TAmOcwjjk6KmE830W7GbU0ZTAGKYEJdj3yAcQ2qYw1jmsG9e0KF8122UDw/SHwFX0EYWC+fpZGG/hPcn1sqk8jGHas+dQ6KXCB6o2g91IPfKsObZpgDGsqAT1hXdpz25A7QZqZU1gBsxFSh5zbEA9yniOU5R5PSvvCnYTSsLYtdkLTGf9uKdD/gS6gI6jPndgUXXe24OKSFAK4zsoSVA+G6uAGaC758/oBrIs+Zb6rbg9up35Xpa1jffpUqEEldezysbJ0VPLjhHADOpEfUiw2gtuUtAKDiGtYNXeqDWJ7zveYQnqM3V3nqx1s2s97xmRoLzzWqMgkLLaTVQJa0ZoJe+hXjRmaMYKVlslr2dlp5wgu4PsiTyszmg5qgVr0CqvoZW2WFlKxhV5gxJsdIMKtYH+Eew6yksoNLy0soJeFzqR+vEI9gx6h9wFzFoPSlA+25g3SlChnnUNU3grkWmxRg0n+ihBnUR5w9j2bCbPGjzzR3sgbc+6gL66TV4zkTHHEqSfZSzr+94V0mbzKUF1GkSWknG5QktGyoj7qBdVeZo2S1Ch2yUNXOMVUcEJyrcQjOeP4vzQCu9BpBtOck5T70HybN4w1iJcR7ouem9QPjhfG+On7EBPUNrKhrYLWp7+FS1FCjtdKvJ6VvM/Q9o2uWC1AHq60QB6hELh0voJ+im6iHReF+FZwe5HP/g8lrXNzuEfeeFu9C9Kg8nSrr9lBZ9ljK/v37xjL5qRFSytf3K15KXy9EH0D/JN3ui2Qj1rC5AAq4FnJvoDPUSNBnTnUy4YQF1maFHlCOAYuouJFN6PkWtEo+ryrH5sL2TPVi5UFXAMrfDegxrtae3ZfWh6paFFffYCx9BKZLtQo/a0YLXIhSUo3yKlAsfQ8vSBBkALtrCjxwdqbTWBY2glst9REee0Lw/ULUEZpFuOChxD1yuRybNbUV0SlAtq9SDgGFp7ushEJlhdKuqWoAzSLYOBHeidGPkc+cIztE2wA6iuCcoFtXom4Bha4f0nGmv2FqyOnoaFscFG9rsfQusYq0T2G8qayASrbdEdOlfR/TJ72AzAaHla5/QD9BnVCucvfK/fjZXtx8WzZneu/+WBf53XOb0G6XetHjQXyfv2vKLyH7qLLqMhJn5DOW5PLmBZDfRUilloGUoD/ovvXgIrT4/rkxt4XK0fw+TtYxhT6iEt4FK7L8D4locDFqnUXSadh78Bx5bEl2CLG+8AAAAASUVORK5CYII=");
+	-moz-appearance: none;
+	-moz-mask-repeat: round;
+	-moz-mask-size: 150px;
+	-moz-mask-position: right;
+
+	background-color: #dcdce3;
+}
+ input[type='checkbox'].customcb:checked
+{
+	background-color: #003e6d;
+}
+
+ input[type='checkbox'].customcb:checked:hover
+{
+	border: 3px solid #B3B3B3;
+	background-color: #003e6d;
+}
+*/

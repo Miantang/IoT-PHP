@@ -1,0 +1,16 @@
+phpmyadmin
+
+*.md~
+
+*.php~
+
+*.html~
+
+*.js~
+*.bak
+*.sh~
+*.sql~
+
+PythonTest
+p.php
+phpinfo.php

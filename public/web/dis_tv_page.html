@@ -1,0 +1,138 @@
+<div id="tvModel" >
+    <div class="switch am-fr">
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="tv-9" value="tv" data-bind="checked : $root.switchValue(), event:{ change: $root.tvSwitched}" ></input>
+        <label for = "tv-9"></label>
+    </div>
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <ul  data-bind="foreach: { data: tvButtonGroup, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 tvboxes am-thumbnails">
+            <li class="tvbox am-thumbnail">
+                <div class="tvbtn am-btn am-btn-primary" data-bind="attr: {id: 'tvbutton-' + dv.id, value : dv.name }, click: $root.controlChanged, css: { 'am-active': 0 } ,style:{height:$('#tvbutton-1').width()+'px'} " data-am-button>
+                    <div class="tvBtnText"><span data-bind="text:dv.name">开关</span></div>
+                </div> 
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+function centerVM() 
+{
+    var self = this;
+    // make the variables observable    
+    self.switchValue = ko.observable(false);
+    self.controller = ko.observable(0);
+    self.tvButtonGroup = 
+    [
+        {id : 1, value : 1, name : "1"},{id : 2, value : 2, name : "2"},{id : 3, value : 3, name : "3"},
+        {id : 4, value : 4, name : "4"},{id : 5, value : 5, name : "5"},{id : 6, value : 6, name : "6"},
+        {id : 7, value : 7, name : "7"},{id : 8, value : 8, name : "8"},{id : 9, value : 9, name : "9"},
+        {id : 10, value : 0, name : "0"},{id : 11, value : 11, name : "Mute"},
+        {id : 12, value : 12, name : "Left"},{id : 13, value : 13, name : "Right"},
+        {id : 14, value : 14, name : "Up"},{id : 15, value : 15, name : "Down"}
+    ];
+
+    self.loaddata = function () 
+    {
+        $.ajax({
+            url: "/index.php/devices/9"
+        }).done(function (data) 
+        {
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch = Boolean( led2Value.switch );
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( led2Value.controller ));
+        });
+    };
+    self.tvSwitched = function ()
+    {
+        if (self.switch) 
+            {
+                self.switch = 0;
+                self.switchValue(false);
+                console.log("1 to ",self.switch);
+                $("#msg").html("1 to "+self.switch);
+                    $('#my-prompt').modal('open');
+            }else{
+                self.switch = 1;
+                self.switchValue(true);
+                console.log("0 to ",self.switch);
+                $("#msg").html("0 to "+ self.switch);
+                    $('#my-prompt').modal('open');
+            };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax(
+        {
+            type: "POST",
+            url: "/index.php/mqttdevices/9",
+            data: switchData,
+            success: function (subdata) 
+            {
+               $.post("/index.php/feedback/tv", "{\"code\":1}");
+               setTimeout(function()
+                {
+                    $.get("/index.php/feedback/tv",
+                        function(fdbData)
+                        {
+                            /*if(1 == fdbData)
+                            {
+                                console.log("Led2 switch Not accessable !!");
+                            }else if (2 == fdbData) 
+                            {
+                                console.log("Something wrong with the server !!");
+                            }else if (0 == fdbData) 
+                            {
+                                console.log("Led2 switch Success Changed !");
+                            };*/
+                        });
+                }, 4000);
+
+            },
+            error: function (xhr, status, error) 
+            {
+                $.post("/index.php/feedback/tv",
+                    "{'code':2}",
+                    function()
+                    {
+                        console.log("seed 2 OK");
+                    });
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
+    }
+    self.controlChanged = function (dv)
+    {
+        var togswitch  = self.switch;
+        if(togswitch)
+        {
+            self.controller(dv.value);
+
+            var controllerNumber = self.controller();
+            var controllerData = '{"type":"step","switch":' + Number(togswitch) +',"controller":'+controllerNumber +'}';
+            $.ajax(
+            {
+                type: "POST",
+                url: "/index.php/mqttdevices/9",
+                data: controllerData,
+                success : function (){console.log("post 9controller", controllerNumber );}
+            });
+        }
+    }
+}
+var tvViewModel = new centerVM();
+
+setTimeout('tvViewModel.loaddata()', 200);
+ko.applyBindings(tvViewModel, document.getElementById("tvModel"));
+
+//go back to main page
+var mainmodel = ko.dataFor(document.getElementById("mainModel"));
+mainmodel.showback(true);
+mainmodel.showuinfo(false);
+mainmodel.gopage = function (url) 
+{
+    $("#render").load("web/center_page.html");
+    mainmodel.showback(false);
+    mainmodel.showuinfo(true);
+};
+    
+</script>

@@ -1,0 +1,113 @@
+﻿
+<div id="camModel" >
+    <iframe align="middle" id="videoframe" scrolling="no" border="0" name="lantk" frameBorder="0" allowfullscreen mozallowfullscreen webkitallowfullscreen src="../javascript_simple.html">
+    </iframe>
+    <div class="switch am-fr">
+        <input class="cmn-toggle cmn-toggle-round" type="checkbox" id="cb-6" value="camara" data-bind="checked : $root.switchValue() ,event:{ change: $root.camChanged}" ></input>
+        <label for = "cb-6"></label>
+    </div>
+</div>
+<script type="text/javascript">
+var controller;
+function centerVM() 
+{
+    var self = this;
+    // make the variables observable  
+    self.controller = ko.observable(0);
+    self.switchValue = ko.observable(false);
+    self.loaddata = function () 
+    {
+        $.ajax({
+            url: "/index.php/devices/6"
+        }).done(function (data) 
+        {
+            var led2Value = $.parseJSON(data.value);// = ko.observable();
+            self.switch =  Number(led2Value.switch) ;
+            self.switchValue(Boolean(self.switch));
+            self.controller(Number( led2Value.controller ));
+
+            controller  = self.controller;
+
+        });
+    };
+    self.camChanged = function ()
+    {
+        if (self.switch) 
+        {
+            self.switch = 0;
+            self.switchValue(false);
+            console.log("1 to ",self.switch);
+            $("#msg").html("1 to "+self.switch);
+                $('#my-prompt').modal('open');
+        }else{
+            self.switch = 1;
+            self.switchValue(true);
+            console.log("0 to ",self.switch);
+            $("#msg").html("0 to "+ self.switch);
+                $('#my-prompt').modal('open');
+        };
+
+        var switchData = '{"type":"step","switch":' + Number(self.switch) +',"controller":'+Number(self.controller())+'}';
+        $.ajax(
+        {
+            type: "POST",
+            url: "/index.php/devices/6",
+            data: switchData,
+            success: function (subdata) 
+            {
+               $.post("/index.php/feedback/camara", "{\"code\":1}");
+               setTimeout(function()
+                {
+                    $.get("/index.php/feedback/camara",
+                        function(fdbData)
+                        {
+                            /*if(1 == fdbData)
+                            {
+                                console.log("Led2 switch Not accessable !!");
+                            }else if (2 == fdbData) 
+                            {
+                                console.log("Something wrong with the server !!");
+                            }else if (0 == fdbData) 
+                            {
+                                console.log("Led2 switch Success Changed !");
+                            };*/
+                        });
+                }, 4000);
+
+               if(self.switch)
+                {
+                    $topLoader.percentageLoader({progress: Number(self.controller())/100 });
+                }
+            },
+            error: function (xhr, status, error) 
+            {
+                $.post("/index.php/feedback/camara",
+                    "{'code':2}",
+                    function()
+                    {
+                        console.log("seed 2 OK");
+                    });
+                $("#msg").html(xhr.responseText);
+                $('#my-prompt').modal('open');
+            }
+        });
+    }
+}
+
+var camViewModel = new centerVM();
+
+setTimeout('camViewModel.loaddata()', 200);
+ko.applyBindings(camViewModel, document.getElementById("camModel"));
+
+//go back to main page
+var mainmodel = ko.dataFor(document.getElementById("mainModel"));
+mainmodel.showback(true);
+mainmodel.showuinfo(false);
+mainmodel.gopage = function (url) 
+{
+    $("#render").load("web/center_page.html");
+    mainmodel.showback(false);
+    mainmodel.showuinfo(true);
+};
+    
+</script>

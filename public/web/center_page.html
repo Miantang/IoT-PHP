@@ -1,0 +1,198 @@
+﻿<div id="centerModel" >
+    <div data-am-widget="list_news" class="am-list-news am-list-news-default">
+        <ul data-bind="foreach: { data: devices, as: 'dv' }" class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes am-thumbnails">
+            
+            <li class="box am-thumbnail">
+            <!-- ko if: dv.type === 'switch' -->
+                <div class="custombtn am-btn am-btn-primary" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.switchChanged, css: { 'am-active': dv.value === 1 },style:{height:$('#step-1').width()+'px'} " data-am-button>
+                    <!-- <input  type="checkbox" class="customcb needsclick"
+                           data-bind="attr: {id: 'cb' + '-' + dv.id, value : dv.name }, checked :Boolean(dv.value)"></input> -->
+                    <div class="imgsimple"><img data-bind="attr: {src:'assets/i/icons/'+ dv.name + 
+                        (dv.imgValue()?'-on':'-off')+'.png', alt : dv.name }" ></div>
+                    <div class="centerText"><span data-bind="text:dv.name+'开关'">开关</span></div>
+                </div> 
+            <!-- /ko -->
+            <!-- ko if: dv.name === "led2" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disLed2 ,style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/light2.png" alt="LED2 Light"></div>
+                    <div  class="centerText"><span>LED灯带</span></div>
+                </div>           
+            <!-- /ko -->
+            <!-- ko if: dv.name === "camara" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name }, click: $root.disCam , style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/camara_1.png" alt="Camara"></div>
+                    <div  class="centerText"><span>摄像监控</span></div>
+                </div>        
+            <!-- /ko -->
+            <!-- ko if: dv.name === "tv" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disTV, style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/tv.png" alt="LED2 Light"></div>
+                    <div  class="centerText"><span>电视</span></div>
+                </div>           
+            <!-- /ko -->
+            <!-- ko if: dv.name === "air" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disAir, style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/air2.png" alt="LED2 Light"></div>
+                    <div  class="centerText"><span>空调</span></div>
+                </div>           
+            <!-- /ko -->
+            <!-- ko if: dv.name === "access" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disTV, style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/access2.png" alt="LED2 Light"></div>
+                    <div  class="centerText"><span>门禁</span></div>
+                </div>           
+            <!-- /ko -->
+            <!-- ko if: dv.name === "gas" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disTV, style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/gas2.png" alt="LED2 Light"></div>
+                    <div  class="centerText"><span>燃气监控</span></div>
+                </div>           
+            <!-- /ko -->
+            <!-- ko if: dv.name === "volume" -->
+                <div class="custombtn" data-bind="attr: {id: 'step' + '-' + dv.id, value : dv.name } ,click: $root.disVolume, style:{height:$('#step-1').width()+'px'} " >
+                    <div class="imgsimple"><img src="assets/i/icons/volume.png" alt="LED2 Light"></div>
+                    <div  class="centerText"><span>音量控制</span></div>
+                </div>           
+            <!-- /ko -->
+            </li>
+        </ul>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function centerVM() {
+        var self = this;
+
+        self.disLed2 = function(ss)
+        {
+            $("#render").load("web/dis_led2_page.html");
+        }
+
+        self.disVolume = function(ss)
+        {
+            $("#render").load("web/dis_volume_page.html");
+        }
+
+        self.disCam = function(ss)
+        {
+            $("#render").load("web/dis_cam_page.html");
+        }
+
+        self.disAir = function(ss)
+        {
+            $("#render").load("web/dis_air_page.html");
+        }
+
+        self.disTV = function(ss)
+        {
+            $("#render").load("web/dis_tv_page.html");
+        }
+
+        
+        self.switchChanged = function (dv) 
+        {
+            if (dv.value === 1) 
+            {
+                dv.value = 0;
+                dv.imgValue(0);
+                var tempValue = dv.value;
+                console.log("1 to ",tempValue);
+                $("#msg").html("1 to "+tempValue);
+                $('#my-prompt').modal('open');
+            }else{
+                dv.value = 1;
+                dv.imgValue(1);
+                var tempValue = dv.value;
+                console.log("0 to ", tempValue);
+                $("#msg").html("0 to "+tempValue);
+                $('#my-prompt').modal('open');
+                
+            };
+            var switchData = '{"type":"switch","value":'+ dv.value+'}';
+
+            $.ajax(
+            {
+                type: "POST",
+                url: "/index.php/mqttdevices/"  + dv.id,
+                data: switchData,
+                success: function (subdata) 
+                {
+                   $.post("/index.php/feedback/"+dv.name,
+                        "{\"code\":1}",
+                        function (d)
+                        {
+                            console.log("seed feedBackCode1 1 OK");
+                        });
+                   setTimeout(function()
+                    {
+                        $.get("/index.php/feedback/"+dv.name,
+                            function(fdbData)
+                            {
+                                /*if(1 === fdbData)
+                                {
+                                    console.log("Not accessable !!");
+                                }else if (2 === fdbData) 
+                                {
+                                    console.log("Something wrong with the server !!");
+                                }else if (0 === fdbData) 
+                                {
+                                    console.log("Success Changed !");
+                                };*/
+                            });
+                    }, 4000);
+                },
+                error: function (xhr, status, error) 
+                {
+                    $.post("/index.php/feedback/"+dv.name, "{'code':2}");
+                    $("#msg").html(xhr.responseText);
+                    $('#my-prompt').modal('open');
+                }
+            });
+        };
+
+        self.devices = ko.observableArray();
+
+        self.loaddata = function () 
+        {
+            $.ajax({
+                url: "/index.php/devices"
+            }).done(function (data) 
+            {
+                if (data.length === 0) 
+                {
+                    $("#render").load("web/nav_page.html");
+                } 
+                else 
+                {
+                    if(0 === self.devices().length)
+                    {
+                       for (var i = 0; i < data.length; i++) 
+                        {
+                            data[i].description = decodeURI(data[i].description);
+                            
+                            if("switch" === data[i].type)
+                            {
+                                data[i].imgValue = ko.observable( data[i].value );
+                            }
+                            self.devices.push(data[i]);
+                        };
+                    }
+                    else
+                    {
+                        // for (var i = 0; i < data.length; i++) 
+                        // {
+                        //     self.devices()[i].value( Boolean(data[i].value) );
+                        // };
+                    }
+                }
+            }).fail(function (xhr) 
+            {
+
+            });
+        };
+    };
+    var ctvm = new centerVM();
+    setTimeout('ctvm.loaddata()', 200);
+   // setInterval('ctvm.loaddata()', 5000);
+    ko.applyBindings(ctvm, document.getElementById("centerModel"));
+</script>
